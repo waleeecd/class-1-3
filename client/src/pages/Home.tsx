@@ -7,7 +7,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, ChevronDown, Trophy, Users, GraduationCap, Medal, Star, Award, Dumbbell, BookOpen } from "lucide-react";
 import {
-  LOGO_URL, HERO_3D, SPORTS_3D, ABOUT_3D, STUDENTS_3D,
+  LOGO_URL, HERO_3D, ABOUT_3D, STUDENTS_3D,
   NAV_ITEMS, teachers, students, topStudents, athletes, topAthletes, aboutText, DEFAULT_AVATAR,
 } from "@/lib/data";
 
@@ -442,33 +442,11 @@ function AthletesSection() {
     <section id="athletes" className="relative py-24 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-[#0d1528] via-[#070b16] to-[#0d1528]" />
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* صورة 3D رياضية */}
-        <div className="flex flex-col lg:flex-row items-center gap-12 mb-16">
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="lg:w-1/2"
-          >
-            <SectionHeader icon={Dumbbell} title="الرياضيين" subtitle="أبطال الفصل في الميادين الرياضية" align="right" />
-            <p className="text-gray-400 mt-4 leading-relaxed">
-              يضم فصلنا مجموعة من الرياضيين المتميزين الذين يمثلون الفصل في مختلف البطولات والمسابقات الرياضية على مستوى المدرسة
-            </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="lg:w-1/2"
-          >
-            <motion.img
-              src={SPORTS_3D}
-              alt="رياضة 3D"
-              className="w-full max-w-md mx-auto drop-shadow-2xl"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            />
-          </motion.div>
+        <div className="mb-12">
+          <SectionHeader icon={Dumbbell} title="الرياضيين" subtitle="أبطال الفصل في الميادين الرياضية" />
+          <p className="text-gray-400 mt-4 leading-relaxed text-center max-w-2xl mx-auto">
+            يضم فصلنا مجموعة من الرياضيين المتميزين الذين يمثلون الفصل في مختلف البطولات والمسابقات الرياضية على مستوى المدرسة
+          </p>
         </div>
 
         {/* بطاقات الرياضيين */}
