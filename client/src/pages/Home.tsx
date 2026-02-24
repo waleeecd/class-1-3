@@ -1,461 +1,280 @@
-/**
- * ============================================
- * صفحة فصل 1/3 الرئيسية
- * Design: Cyberpunk Academic - أكاديمي مستقبلي
- * خلفية داكنة عميقة + نيون أزرق/أخضر + glassmorphism
- * ============================================
+/*
+ * تصميم مستوحى من uula.com
+ * خلفية كحلي داكنة، ألوان تركواز، صور 3D، بطاقات زجاجية
+ * خطوط منحنية زخرفية، نقاط مضيئة، أنيميشن سلس
  */
 import { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Users, Trophy, Dumbbell, Info, ChevronDown, X, Star, Medal, Zap } from "lucide-react";
+import { Search, ChevronDown, Trophy, Users, GraduationCap, Medal, Star, Award, Dumbbell, BookOpen } from "lucide-react";
 import {
-  IMAGES,
-  DEFAULT_AVATAR,
-  teachers,
-  students,
-  topStudents,
-  athletes,
-  topAthletes,
-  aboutText,
+  LOGO_URL, HERO_3D, SPORTS_3D, ABOUT_3D, STUDENTS_3D,
+  NAV_ITEMS, teachers, students, topStudents, athletes, topAthletes, aboutText, DEFAULT_AVATAR,
 } from "@/lib/data";
 
-/* ───────── شاشة الترحيب ───────── */
-function WelcomeScreen({ onDismiss }: { onDismiss: () => void }) {
+// ===== شاشة الترحيب =====
+function WelcomeScreen({ onEnter }: { onEnter: () => void }) {
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center cursor-pointer select-none"
-      onClick={onDismiss}
-      initial={{ opacity: 1 }}
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center"
+      style={{ background: "linear-gradient(135deg, #070b16 0%, #0d1528 50%, #0a1020 100%)" }}
+      onClick={onEnter}
       exit={{ opacity: 0, scale: 1.1 }}
       transition={{ duration: 0.8, ease: "easeInOut" }}
     >
-      {/* خلفية مغبشة */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `url(${IMAGES.heroBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "blur(8px) brightness(0.3)",
-        }}
-      />
-      <div className="absolute inset-0 bg-black/60" />
-
-      {/* المحتوى */}
-      <motion.div
-        className="relative z-10 text-center px-6"
-        initial={{ y: 30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.3, duration: 0.8 }}
-      >
-        <motion.img
-          src={IMAGES.logo}
-          alt="شعار فصل 1/3"
-          className="w-32 h-32 sm:w-44 sm:h-44 mx-auto mb-8 drop-shadow-[0_0_30px_rgba(0,212,255,0.5)]"
-          animate={{ 
-            scale: [1, 1.05, 1],
-            filter: [
-              "drop-shadow(0 0 20px rgba(0,212,255,0.4))",
-              "drop-shadow(0 0 40px rgba(0,212,255,0.7))",
-              "drop-shadow(0 0 20px rgba(0,212,255,0.4))",
-            ]
-          }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <h1
-          className="text-4xl sm:text-6xl font-black mb-4 neon-text"
-          style={{ fontFamily: "var(--font-cairo)" }}
-        >
-          مرحباً بك في موقع
-        </h1>
-        <h2
-          className="text-5xl sm:text-7xl font-black mb-8"
-          style={{
-            fontFamily: "var(--font-cairo)",
-            background: "linear-gradient(135deg, #00d4ff, #00ff88)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}
-        >
-          فصل 1/3
-        </h2>
-        <motion.div
-          className="flex flex-col items-center gap-3"
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <p className="text-lg text-cyan-300/80">المس الشاشة للدخول</p>
-          <ChevronDown className="w-8 h-8 text-cyan-400" />
-        </motion.div>
-      </motion.div>
-
-      {/* جزيئات متحركة */}
-      <div className="absolute inset-0 z-[5] overflow-hidden pointer-events-none">
-        {Array.from({ length: 30 }).map((_, i) => (
+      {/* خطوط دائرية زخرفية */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-teal-500/10" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full border border-teal-500/5" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] rounded-full border border-teal-500/[0.03]" />
+        {/* نقاط مضيئة */}
+        {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute rounded-full"
-            style={{
-              width: Math.random() * 4 + 2,
-              height: Math.random() * 4 + 2,
-              background: i % 2 === 0 ? "#00d4ff" : "#00ff88",
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -100, 0],
-              opacity: [0, 0.8, 0],
-            }}
-            transition={{
-              duration: Math.random() * 4 + 3,
-              repeat: Infinity,
-              delay: Math.random() * 3,
-            }}
+            className="absolute w-1 h-1 rounded-full bg-teal-400"
+            style={{ top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%`, opacity: 0.2 + Math.random() * 0.4 }}
+            animate={{ opacity: [0.1, 0.6, 0.1], scale: [0.8, 1.2, 0.8] }}
+            transition={{ duration: 3 + Math.random() * 4, repeat: Infinity, delay: Math.random() * 3 }}
           />
         ))}
       </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.3 }}
+        className="relative z-10 flex flex-col items-center"
+      >
+        {/* الشعار */}
+        <motion.div
+          className="w-40 h-40 mb-8 rounded-2xl overflow-hidden shadow-2xl"
+          style={{ boxShadow: "0 0 60px rgba(20,184,166,0.15)" }}
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <img src={LOGO_URL} alt="شعار فصل 1/3" className="w-full h-full object-cover" />
+        </motion.div>
+
+        <h1 className="text-4xl md:text-6xl font-black text-white mb-3 text-center" style={{ fontFamily: "'Tajawal', sans-serif" }}>
+          مرحباً بك في موقع
+        </h1>
+        <h2 className="text-5xl md:text-7xl font-black mb-6 text-center gradient-text">
+          فصل 1/3
+        </h2>
+        <p className="text-lg text-gray-400 mb-2">الفصل المثالي</p>
+
+        <motion.div
+          className="mt-8 flex flex-col items-center gap-2 text-gray-500"
+          animate={{ opacity: [0.4, 1, 0.4] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <span className="text-sm">المس الشاشة للدخول</span>
+          <ChevronDown className="w-5 h-5" />
+        </motion.div>
+      </motion.div>
     </motion.div>
   );
 }
 
-/* ───────── شريط التنقل ───────── */
-function Navbar() {
+// ===== شريط التنقل =====
+function Navbar({ activeSection }: { activeSection: string }) {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const links = [
-    { label: "البداية", href: "#home" },
-    { label: "المعلمين", href: "#teachers" },
-    { label: "الطلاب", href: "#students" },
-    { label: "الرياضيين", href: "#athletes" },
-    { label: "حولنا", href: "#about" },
-  ];
-
-  const scrollTo = (href: string) => {
-    setMobileOpen(false);
-    const el = document.querySelector(href);
-    el?.scrollIntoView({ behavior: "smooth" });
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-[#0a0a1a]/90 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,212,255,0.1)]"
-          : "bg-transparent"
+    <motion.nav
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
+        scrolled ? "bg-[#070b16]/90 backdrop-blur-xl shadow-lg shadow-black/20" : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between h-16 sm:h-20 px-4 sm:px-8">
-        {/* الشعار */}
-        <button onClick={() => scrollTo("#home")} className="flex items-center gap-3">
-          <img src={IMAGES.logo} alt="شعار" className="w-10 h-10 sm:w-12 sm:h-12" />
-          <span
-            className="text-xl sm:text-2xl font-bold neon-text hidden sm:block"
-            style={{ fontFamily: "var(--font-cairo)" }}
-          >
-            فصل 1/3
-          </span>
-        </button>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 md:h-20">
+          {/* الشعار */}
+          <button onClick={() => scrollTo("home")} className="flex items-center gap-3">
+            <img src={LOGO_URL} alt="شعار" className="w-10 h-10 rounded-lg object-cover" />
+            <span className="text-lg font-bold text-white hidden sm:block">فصل 1/3</span>
+          </button>
 
-        {/* قوائم سطح المكتب */}
-        <div className="hidden md:flex items-center gap-1">
-          {links.map((link) => (
-            <button
-              key={link.href}
-              onClick={() => scrollTo(link.href)}
-              className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-cyan-400 transition-colors rounded-lg hover:bg-white/5"
-              style={{ fontFamily: "var(--font-cairo)" }}
-            >
-              {link.label}
-            </button>
-          ))}
+          {/* القوائم */}
+          <div className="flex items-center gap-1 md:gap-2">
+            {NAV_ITEMS.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollTo(item.id)}
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                  activeSection === item.id
+                    ? "text-teal-400 bg-teal-400/10"
+                    : "text-gray-400 hover:text-white hover:bg-white/5"
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
         </div>
+      </div>
+    </motion.nav>
+  );
+}
 
-        {/* زر القائمة للجوال */}
-        <button
-          className="md:hidden text-cyan-400 p-2"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
-          {mobileOpen ? <X className="w-6 h-6" /> : (
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          )}
-        </button>
+// ===== قسم البداية (Hero) =====
+function HeroSection() {
+  return (
+    <section id="home" className="relative min-h-screen flex items-center overflow-hidden pt-20">
+      {/* خلفية */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#070b16] via-[#0a1020] to-[#0d1528]" />
+        {/* دائرة زرقاء كبيرة مثل uula */}
+        <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/3 w-[700px] h-[700px] rounded-full bg-blue-600/20 blur-3xl" />
+        {/* خط منحني */}
+        <svg className="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 1440 900" fill="none">
+          <ellipse cx="720" cy="450" rx="600" ry="400" stroke="#14b8a6" strokeWidth="1" />
+          <ellipse cx="720" cy="450" rx="400" ry="280" stroke="#14b8a6" strokeWidth="0.5" />
+        </svg>
+        {/* نقاط */}
+        {[...Array(15)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1.5 h-1.5 rounded-full bg-teal-400/30"
+            style={{ top: `${10 + Math.random() * 80}%`, left: `${5 + Math.random() * 90}%` }}
+            animate={{ opacity: [0.1, 0.5, 0.1] }}
+            transition={{ duration: 4 + Math.random() * 3, repeat: Infinity, delay: Math.random() * 2 }}
+          />
+        ))}
       </div>
 
-      {/* قائمة الجوال */}
-      <AnimatePresence>
-        {mobileOpen && (
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* النص */}
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="md:hidden bg-[#0a0a1a]/95 backdrop-blur-xl border-t border-cyan-500/10 overflow-hidden"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-right"
           >
-            <div className="flex flex-col p-4 gap-1">
-              {links.map((link) => (
-                <button
-                  key={link.href}
-                  onClick={() => scrollTo(link.href)}
-                  className="px-4 py-3 text-right text-gray-300 hover:text-cyan-400 hover:bg-white/5 rounded-lg transition-colors"
-                  style={{ fontFamily: "var(--font-cairo)" }}
+            <motion.div
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-500/10 border border-teal-500/20 mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <Star className="w-4 h-4 text-teal-400" />
+              <span className="text-teal-400 text-sm font-medium">العام الدراسي 2025 - 2026</span>
+            </motion.div>
+
+            <h1 className="text-5xl md:text-7xl font-black text-white mb-4 leading-tight">
+              فصل <span className="gradient-text">1/3</span>
+            </h1>
+            <p className="text-xl text-gray-300 mb-3 font-bold">الفصل المثالي</p>
+            <p className="text-gray-400 text-lg mb-8 leading-relaxed max-w-lg">
+              نخبة من الطلاب المتميزين والمعلمين المبدعين، نسعى معاً نحو التفوق والإبداع في بيئة تعليمية محفزة ومتطورة
+            </p>
+
+            <div className="flex gap-4 mb-10">
+              <button
+                onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
+                className="px-8 py-3 rounded-full bg-teal-500 text-[#070b16] font-bold text-lg hover:bg-teal-400 transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/25"
+              >
+                تعرف علينا
+              </button>
+              <button
+                onClick={() => document.getElementById("students")?.scrollIntoView({ behavior: "smooth" })}
+                className="px-8 py-3 rounded-full border border-teal-500/30 text-teal-400 font-bold text-lg hover:bg-teal-500/10 transition-all duration-300"
+              >
+                قائمة الطلاب
+              </button>
+            </div>
+
+            {/* إحصائيات */}
+            <div className="flex gap-8">
+              {[
+                { num: "26", label: "طالب", icon: Users },
+                { num: "4", label: "معلمين", icon: GraduationCap },
+                { num: "8", label: "رياضيين", icon: Dumbbell },
+                { num: "+5", label: "إنجازات", icon: Trophy },
+              ].map((stat, i) => (
+                <motion.div
+                  key={i}
+                  className="text-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 + i * 0.1 }}
                 >
-                  {link.label}
-                </button>
+                  <stat.icon className="w-5 h-5 text-teal-400/60 mx-auto mb-1" />
+                  <div className="text-2xl md:text-3xl font-black text-white">{stat.num}</div>
+                  <div className="text-xs text-gray-500">{stat.label}</div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
-  );
-}
 
-/* ───────── مكون بطاقة شخص ───────── */
-function PersonCard({
-  name,
-  subtitle,
-  description,
-  image,
-  icon,
-  accentColor = "cyan",
-}: {
-  name: string;
-  subtitle: string;
-  description?: string;
-  image: string;
-  icon?: React.ReactNode;
-  accentColor?: "cyan" | "green" | "gold";
-}) {
-  const colors = {
-    cyan: { border: "border-cyan-500/20", hoverBorder: "hover:border-cyan-400/50", glow: "rgba(0,212,255,0.15)", text: "text-cyan-400" },
-    green: { border: "border-emerald-500/20", hoverBorder: "hover:border-emerald-400/50", glow: "rgba(0,255,136,0.15)", text: "text-emerald-400" },
-    gold: { border: "border-amber-500/20", hoverBorder: "hover:border-amber-400/50", glow: "rgba(255,200,0,0.15)", text: "text-amber-400" },
-  };
-  const c = colors[accentColor];
-
-  const imgSrc = (!image || image === "REPLACE_WITH_URL") ? DEFAULT_AVATAR : image;
-
-  return (
-    <motion.div
-      className={`glass-card rounded-2xl p-5 sm:p-6 ${c.border} ${c.hoverBorder} transition-all duration-300 group`}
-      whileHover={{ y: -5, boxShadow: `0 10px 40px ${c.glow}` }}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="flex flex-col items-center text-center">
-        <div className="relative mb-4">
-          <div
-            className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2"
-            style={{ borderColor: accentColor === "cyan" ? "#00d4ff40" : accentColor === "green" ? "#00ff8840" : "#ffc80040" }}
+          {/* صورة 3D */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="relative"
           >
-            <img
-              src={imgSrc}
-              alt={name}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
-          </div>
-          {icon && (
-            <div
-              className={`absolute -bottom-2 -left-2 w-8 h-8 rounded-full flex items-center justify-center ${
-                accentColor === "gold" ? "bg-amber-500" : accentColor === "green" ? "bg-emerald-500" : "bg-cyan-500"
-              }`}
-            >
-              {icon}
+            <div className="relative">
+              {/* دائرة زرقاء خلف الصورة */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-blue-500/15 blur-2xl" />
+              <motion.img
+                src={HERO_3D}
+                alt="فصل دراسي 3D"
+                className="relative z-10 w-full max-w-lg mx-auto drop-shadow-2xl"
+                animate={{ y: [0, -12, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              />
             </div>
-          )}
-        </div>
-        <h3
-          className="text-lg sm:text-xl font-bold text-white mb-1"
-          style={{ fontFamily: "var(--font-cairo)" }}
-        >
-          {name}
-        </h3>
-        <p className={`text-sm font-medium ${c.text} mb-2`}>{subtitle}</p>
-        {description && (
-          <p className="text-sm text-gray-400 leading-relaxed line-clamp-3">{description}</p>
-        )}
-      </div>
-    </motion.div>
-  );
-}
-
-/* ───────── عنوان القسم ───────── */
-function SectionTitle({ title, icon }: { title: string; icon: React.ReactNode }) {
-  return (
-    <motion.div
-      className="flex items-center gap-4 mb-10 sm:mb-14"
-      initial={{ opacity: 0, x: 30 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-    >
-      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
-        {icon}
-      </div>
-      <div>
-        <h2 className="section-title">{title}</h2>
-        <div className="h-1 w-20 bg-gradient-to-l from-cyan-500 to-emerald-500 rounded-full mt-2" />
-      </div>
-    </motion.div>
-  );
-}
-
-/* ───────── قسم البداية (Hero) ───────── */
-function HeroSection() {
-  return (
-    <section
-      id="home"
-      className="relative min-h-screen flex items-center overflow-hidden pt-20"
-    >
-      {/* خلفية */}
-      <div className="absolute inset-0">
-        <img src={IMAGES.heroBg} alt="" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a1a]/70 via-[#0a0a1a]/50 to-[#0a0a1a]" />
-      </div>
-
-      {/* محتوى */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-8 py-20">
-        <div className="max-w-3xl">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm mb-6">
-              <Zap className="w-4 h-4" />
-              <span>العام الدراسي 2025 - 2026</span>
-            </div>
-          </motion.div>
-
-          <motion.h1
-            className="text-4xl sm:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight"
-            style={{ fontFamily: "var(--font-cairo)" }}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            فصل{" "}
-            <span
-              style={{
-                background: "linear-gradient(135deg, #00d4ff, #00ff88)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              1/3
-            </span>
-          </motion.h1>
-
-          <motion.p
-            className="text-lg sm:text-xl text-gray-300 mb-8 leading-relaxed max-w-2xl"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            نخبة من الطلاب المتميزين والمعلمين المبدعين، نسعى معاً نحو التفوق
-            والإبداع في بيئة تعليمية محفزة ومتطورة. هذا الموقع يوثق مسيرتنا
-            وإنجازاتنا.
-          </motion.p>
-
-          <motion.div
-            className="flex flex-wrap gap-4"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            <button
-              onClick={() => document.querySelector("#teachers")?.scrollIntoView({ behavior: "smooth" })}
-              className="px-8 py-3 rounded-xl font-bold text-[#0a0a1a] transition-all duration-300 hover:scale-105"
-              style={{
-                fontFamily: "var(--font-cairo)",
-                background: "linear-gradient(135deg, #00d4ff, #00ff88)",
-              }}
-            >
-              تعرف علينا
-            </button>
-            <button
-              onClick={() => document.querySelector("#students")?.scrollIntoView({ behavior: "smooth" })}
-              className="px-8 py-3 rounded-xl font-bold text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/10 transition-all duration-300"
-              style={{ fontFamily: "var(--font-cairo)" }}
-            >
-              قائمة الطلاب
-            </button>
-          </motion.div>
-
-          {/* إحصائيات سريعة */}
-          <motion.div
-            className="flex flex-wrap gap-8 mt-14"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1 }}
-          >
-            {[
-              { num: "26", label: "طالب" },
-              { num: "4", label: "معلمين" },
-              { num: "8", label: "رياضيين" },
-              { num: "5+", label: "إنجازات" },
-            ].map((s) => (
-              <div key={s.label} className="text-center">
-                <div className="text-3xl sm:text-4xl font-black text-white neon-text" style={{ fontFamily: "var(--font-cairo)" }}>
-                  {s.num}
-                </div>
-                <div className="text-sm text-gray-400 mt-1">{s.label}</div>
-              </div>
-            ))}
           </motion.div>
         </div>
       </div>
-
-      {/* سهم التمرير */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <ChevronDown className="w-8 h-8 text-cyan-400/60" />
-      </motion.div>
     </section>
   );
 }
 
-/* ───────── قسم المعلمين ───────── */
+// ===== قسم المعلمين =====
 function TeachersSection() {
   return (
-    <section id="teachers" className="relative py-20 sm:py-28 overflow-hidden">
-      <div className="absolute inset-0 opacity-20">
-        <img src={IMAGES.teachersBg} alt="" className="w-full h-full object-cover" />
-      </div>
-      <div className="absolute inset-0 bg-[#0a0a1a]/90" />
+    <section id="teachers" className="relative py-24 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0d1528] via-[#0a1222] to-[#0d1528]" />
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader icon={GraduationCap} title="المعلمين" subtitle="نخبة من المعلمين المتميزين" />
 
-      <div className="relative z-10 container mx-auto px-4 sm:px-8">
-        <SectionTitle title="المعلمين" icon={<Users className="w-6 h-6" />} />
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {teachers.map((t, i) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+          {teachers.map((teacher, i) => (
             <motion.div
-              key={t.id}
+              key={teacher.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
+              transition={{ delay: i * 0.1 }}
+              className="glass-card rounded-2xl p-6 text-center group"
             >
-              <PersonCard
-                name={t.name}
-                subtitle={t.role}
-                description={t.description}
-                image={t.image}
-                accentColor="cyan"
-              />
+              <div className="relative w-24 h-24 mx-auto mb-4">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-teal-400 to-blue-500 opacity-20 group-hover:opacity-40 transition-opacity" />
+                <img
+                  src={teacher.image === "REPLACE_WITH_URL" ? DEFAULT_AVATAR : teacher.image}
+                  alt={teacher.name}
+                  className="w-full h-full rounded-full object-cover border-2 border-teal-500/30"
+                />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-1">{teacher.name}</h3>
+              <p className="text-teal-400 text-sm font-medium mb-3">{teacher.role}</p>
+              <p className="text-gray-400 text-sm leading-relaxed">{teacher.description}</p>
             </motion.div>
           ))}
         </div>
@@ -464,7 +283,7 @@ function TeachersSection() {
   );
 }
 
-/* ───────── قسم قائمة الطلاب ───────── */
+// ===== قسم قائمة الطلاب =====
 function StudentsListSection() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<typeof students[0] | null>(null);
@@ -475,455 +294,431 @@ function StudentsListSection() {
   );
 
   return (
-    <section id="students" className="relative py-20 sm:py-28 overflow-hidden">
-      <div className="absolute inset-0 opacity-10">
-        <img src={IMAGES.studentsBg} alt="" className="w-full h-full object-cover" />
-      </div>
-      <div className="absolute inset-0 bg-[#0a0a1a]/95" />
+    <section id="students" className="relative py-24 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0d1528] via-[#070b16] to-[#0d1528]" />
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader icon={Users} title="قائمة الطلاب" subtitle="طلاب الفصل (26 طالب)" />
 
-      <div className="relative z-10 container mx-auto px-4 sm:px-8">
-        <SectionTitle title="قائمة الطلاب" icon={<Users className="w-6 h-6" />} />
-
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* القائمة على اليمين */}
-          <div className="lg:w-2/3 order-1">
-            <div className="glass-card rounded-2xl border border-cyan-500/10 overflow-hidden">
-              {/* رأس القائمة */}
-              <div className="bg-gradient-to-l from-cyan-500/10 to-transparent p-4 sm:p-5 border-b border-cyan-500/10">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-bold text-white" style={{ fontFamily: "var(--font-cairo)" }}>
-                    طلاب الفصل ({students.length} طالب)
-                  </h3>
-                  <div className="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center">
-                    <Users className="w-4 h-4 text-cyan-400" />
-                  </div>
-                </div>
+        <div className="grid lg:grid-cols-3 gap-8 mt-12">
+          {/* القائمة */}
+          <div className="lg:col-span-2">
+            <div className="glass-card rounded-2xl p-6">
+              <div className="flex items-center gap-3 mb-6">
+                <Users className="w-5 h-5 text-teal-400" />
+                <h3 className="text-lg font-bold text-white">طلاب الفصل ({students.length} طالب)</h3>
               </div>
-
-              {/* قائمة الأسماء */}
-              <div className="max-h-[600px] overflow-y-auto p-3 sm:p-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {students.map((student, i) => (
-                    <motion.button
-                      key={student.id}
-                      onClick={() => setSelectedStudent(student)}
-                      className={`flex items-center gap-3 p-3 rounded-xl text-right transition-all duration-200 ${
-                        selectedStudent?.id === student.id
-                          ? "bg-cyan-500/15 border border-cyan-500/30"
-                          : "hover:bg-white/5 border border-transparent"
-                      }`}
-                      initial={{ opacity: 0, x: 20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.3, delay: i * 0.02 }}
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 text-sm font-bold shrink-0">
-                        {student.id}
-                      </div>
-                      <span className="text-gray-200 text-sm font-medium truncate">{student.name}</span>
-                    </motion.button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* حقل البحث */}
-            <div className="mt-6">
-              <div className="glass-card rounded-2xl p-5 border border-cyan-500/10">
-                <h4 className="text-base font-bold text-white mb-3" style={{ fontFamily: "var(--font-cairo)" }}>
-                  بحث عن طالب
-                </h4>
-                <div className="relative">
-                  <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400/50" />
-                  <input
-                    type="text"
-                    placeholder="اكتب اسم الطالب..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-[#0a0a1a]/60 border border-cyan-500/15 rounded-xl py-3 pr-12 pl-4 text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-400/40 transition-colors"
-                    style={{ fontFamily: "var(--font-ibm)" }}
-                  />
-                </div>
-
-                {/* نتائج البحث */}
-                {searchQuery && (
-                  <div className="mt-4 space-y-2">
-                    {filteredStudents.length === 0 ? (
-                      <p className="text-gray-500 text-sm text-center py-4">لا توجد نتائج</p>
-                    ) : (
-                      filteredStudents.map((student) => (
-                        <motion.button
-                          key={student.id}
-                          onClick={() => setSelectedStudent(student)}
-                          className="w-full flex items-center gap-4 p-3 rounded-xl hover:bg-cyan-500/10 transition-colors text-right"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                        >
-                          <div className="w-10 h-10 rounded-full overflow-hidden border border-cyan-500/20 shrink-0">
-                            <img
-                              src={(!student.image || student.image === "REPLACE_WITH_URL") ? DEFAULT_AVATAR : student.image}
-                              alt={student.name}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <span className="text-white font-medium">{student.name}</span>
-                        </motion.button>
-                      ))
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* بطاقة الطالب المحدد */}
-          <div className="lg:w-1/3 order-2">
-            <div className="lg:sticky lg:top-24">
-              <AnimatePresence mode="wait">
-                {selectedStudent ? (
-                  <motion.div
-                    key={selectedStudent.id}
-                    className="glass-card rounded-2xl p-6 sm:p-8 border border-cyan-500/20 text-center"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <button
-                      onClick={() => setSelectedStudent(null)}
-                      className="absolute top-4 left-4 text-gray-500 hover:text-white transition-colors"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
-                    <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden border-2 border-cyan-500/30 mx-auto mb-6 shadow-[0_0_30px_rgba(0,212,255,0.2)]">
-                      <img
-                        src={(!selectedStudent.image || selectedStudent.image === "REPLACE_WITH_URL") ? DEFAULT_AVATAR : selectedStudent.image}
-                        alt={selectedStudent.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <h3
-                      className="text-2xl font-bold text-white mb-2"
-                      style={{ fontFamily: "var(--font-cairo)" }}
-                    >
-                      {selectedStudent.name}
-                    </h3>
-                    <p className="text-cyan-400 text-sm">طالب في فصل 1/3</p>
-                    <div className="mt-6 flex items-center justify-center gap-2 text-gray-400 text-sm">
-                      <span className="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/15 text-cyan-400">
-                        #{selectedStudent.id}
-                      </span>
-                    </div>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    className="glass-card rounded-2xl p-8 border border-cyan-500/10 text-center"
+              <div className="grid grid-cols-2 gap-2 max-h-[500px] overflow-y-auto pr-2" style={{ scrollbarWidth: "thin" }}>
+                {filteredStudents.map((student, i) => (
+                  <motion.button
+                    key={student.id}
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.02 }}
+                    onClick={() => setSelectedStudent(student)}
+                    className={`flex items-center gap-3 p-3 rounded-xl text-right transition-all duration-300 ${
+                      selectedStudent?.id === student.id
+                        ? "bg-teal-500/15 border border-teal-500/30"
+                        : "hover:bg-white/5 border border-transparent"
+                    }`}
                   >
-                    <div className="w-20 h-20 rounded-full bg-cyan-500/10 flex items-center justify-center mx-auto mb-4">
-                      <Search className="w-8 h-8 text-cyan-400/50" />
-                    </div>
-                    <p className="text-gray-400" style={{ fontFamily: "var(--font-cairo)" }}>
-                      اختر طالباً من القائمة أو ابحث عن اسمه لعرض بطاقته
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────── قسم أبرز الطلاب ───────── */
-function TopStudentsSection() {
-  return (
-    <section className="relative py-20 sm:py-28 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a1a] via-[#0a1020] to-[#0a0a1a]" />
-
-      <div className="relative z-10 container mx-auto px-4 sm:px-8">
-        <SectionTitle title="أبرز الطلاب" icon={<Star className="w-6 h-6" />} />
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {topStudents.map((s, i) => (
-            <motion.div
-              key={s.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-            >
-              <PersonCard
-                name={s.name}
-                subtitle={s.achievement}
-                description={s.description}
-                image={s.image}
-                icon={<Star className="w-4 h-4 text-white" />}
-                accentColor="gold"
-              />
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────── قسم الرياضيين ───────── */
-function AthletesSection() {
-  return (
-    <section id="athletes" className="relative py-20 sm:py-28 overflow-hidden">
-      <div className="absolute inset-0 opacity-10">
-        <img src={IMAGES.studentsBg} alt="" className="w-full h-full object-cover" />
-      </div>
-      <div className="absolute inset-0 bg-[#0a0a1a]/95" />
-
-      <div className="relative z-10 container mx-auto px-4 sm:px-8">
-        <SectionTitle title="الرياضيين" icon={<Dumbbell className="w-6 h-6" />} />
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {athletes.map((a, i) => (
-            <motion.div
-              key={a.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-            >
-              <PersonCard
-                name={a.name}
-                subtitle={a.sport}
-                description={a.description}
-                image={a.image}
-                icon={<Dumbbell className="w-4 h-4 text-white" />}
-                accentColor="green"
-              />
-            </motion.div>
-          ))}
-        </div>
-
-        {/* أبرز الرياضيين */}
-        <div className="mt-20">
-          <motion.div
-            className="flex items-center gap-4 mb-10"
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
-              <Medal className="w-6 h-6" />
-            </div>
-            <div>
-              <h2
-                className="text-2xl sm:text-3xl font-extrabold"
-                style={{
-                  fontFamily: "var(--font-cairo)",
-                  background: "linear-gradient(135deg, #f0c040, #ff8800)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                أبرز الرياضيين
-              </h2>
-              <div className="h-1 w-20 bg-gradient-to-l from-amber-500 to-orange-500 rounded-full mt-2" />
-            </div>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {topAthletes.map((a, i) => (
-              <motion.div
-                key={a.id}
-                className="glass-card rounded-2xl p-6 sm:p-8 border border-amber-500/20 hover:border-amber-400/40 transition-all duration-300"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.15 }}
-                whileHover={{ y: -5, boxShadow: "0 10px 40px rgba(240,192,64,0.15)" }}
-              >
-                <div className="flex flex-col sm:flex-row items-center gap-6">
-                  <div className="relative shrink-0">
-                    <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-2 border-amber-500/30 shadow-[0_0_30px_rgba(240,192,64,0.2)]">
-                      <img
-                        src={(!a.image || a.image === "REPLACE_WITH_URL") ? DEFAULT_AVATAR : a.image}
-                        alt={a.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="absolute -bottom-2 -left-2 w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center shadow-lg">
-                      <Trophy className="w-5 h-5 text-white" />
-                    </div>
-                  </div>
-                  <div className="text-center sm:text-right">
-                    <h3
-                      className="text-xl sm:text-2xl font-bold text-white mb-1"
-                      style={{ fontFamily: "var(--font-cairo)" }}
-                    >
-                      {a.name}
-                    </h3>
-                    <p className="text-amber-400 font-medium mb-1">{a.sport}</p>
-                    <p className="text-emerald-400 text-sm font-medium mb-3">{a.achievement}</p>
-                    <p className="text-gray-400 text-sm leading-relaxed">{a.description}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────── قسم حولنا ───────── */
-function AboutSection() {
-  return (
-    <section id="about" className="relative py-20 sm:py-28 overflow-hidden">
-      <div className="absolute inset-0 opacity-20">
-        <img src={IMAGES.aboutBg} alt="" className="w-full h-full object-cover" />
-      </div>
-      <div className="absolute inset-0 bg-[#0a0a1a]/90" />
-
-      <div className="relative z-10 container mx-auto px-4 sm:px-8">
-        <SectionTitle title={aboutText.title} icon={<Info className="w-6 h-6" />} />
-
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          {/* النص */}
-          <div className="lg:col-span-3">
-            <motion.div
-              className="glass-card rounded-2xl p-6 sm:p-10 border border-cyan-500/10"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <h3
-                className="text-2xl sm:text-3xl font-bold text-white mb-6"
-                style={{ fontFamily: "var(--font-cairo)" }}
-              >
-                {aboutText.subtitle}
-              </h3>
-              <div className="space-y-4">
-                {aboutText.paragraphs.map((p, i) => (
-                  <p key={i} className="text-gray-300 leading-relaxed text-base sm:text-lg">
-                    {p}
-                  </p>
+                    <span className="w-8 h-8 rounded-full bg-teal-500/10 flex items-center justify-center text-teal-400 text-sm font-bold shrink-0">
+                      {student.id}
+                    </span>
+                    <span className="text-gray-300 text-sm font-medium">{student.name}</span>
+                  </motion.button>
                 ))}
               </div>
-            </motion.div>
+            </div>
           </div>
 
-          {/* الإنجازات */}
-          <div className="lg:col-span-2">
+          {/* البحث وبطاقة الطالب */}
+          <div className="space-y-6">
+            {/* البحث */}
+            <div className="glass-card rounded-2xl p-6">
+              <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                <Search className="w-5 h-5 text-teal-400" />
+                بحث عن طالب
+              </h3>
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="اكتب اسم الطالب..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-teal-500/50 focus:bg-white/[0.07] transition-all"
+                />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+              </div>
+            </div>
+
+            {/* بطاقة الطالب */}
+            <AnimatePresence mode="wait">
+              {selectedStudent ? (
+                <motion.div
+                  key={selectedStudent.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  className="glass-card rounded-2xl p-8 text-center"
+                  style={{ boxShadow: "0 0 40px rgba(20,184,166,0.1)" }}
+                >
+                  <div className="w-28 h-28 mx-auto mb-4 rounded-full overflow-hidden border-3 border-teal-500/40">
+                    <img
+                      src={selectedStudent.image === "REPLACE_WITH_URL" ? DEFAULT_AVATAR : selectedStudent.image}
+                      alt={selectedStudent.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-1">{selectedStudent.name}</h3>
+                  <p className="text-teal-400 text-sm">طالب في فصل 1/3</p>
+                  <div className="mt-4 px-4 py-2 rounded-full bg-teal-500/10 inline-block">
+                    <span className="text-teal-400 text-sm font-medium">#{selectedStudent.id}</span>
+                  </div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="glass-card rounded-2xl p-8 text-center"
+                >
+                  <Search className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+                  <p className="text-gray-500 text-sm">اختر طالباً من القائمة أو ابحث عن اسمه لعرض بطاقته</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ===== قسم أبرز الطلاب =====
+function FeaturedStudentsSection() {
+  return (
+    <section className="relative py-24 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0d1528] via-[#0a1222] to-[#0d1528]" />
+      {/* دائرة زخرفية */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-teal-500/5 blur-3xl translate-x-1/2 -translate-y-1/2" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader icon={Star} title="أبرز الطلاب" subtitle="طلاب تميزوا بإنجازاتهم" />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-12">
+          {topStudents.map((student, i) => (
             <motion.div
-              className="glass-card rounded-2xl p-6 sm:p-8 border border-amber-500/15"
+              key={student.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
+              transition={{ delay: i * 0.08 }}
+              className="glass-card rounded-2xl p-5 text-center group"
             >
-              <h3
-                className="text-xl font-bold text-amber-400 mb-6 flex items-center gap-3"
-                style={{ fontFamily: "var(--font-cairo)" }}
-              >
-                <Trophy className="w-6 h-6" />
+              <div className="relative w-20 h-20 mx-auto mb-3">
+                <img
+                  src={student.image === "REPLACE_WITH_URL" ? DEFAULT_AVATAR : student.image}
+                  alt={student.name}
+                  className="w-full h-full rounded-full object-cover border-2 border-yellow-500/30"
+                />
+                <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-yellow-500 flex items-center justify-center">
+                  <Star className="w-3.5 h-3.5 text-[#070b16]" />
+                </div>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-1">{student.name}</h3>
+              <p className="text-yellow-400 text-xs font-medium mb-2">{student.achievement}</p>
+              <p className="text-gray-400 text-xs leading-relaxed">{student.description}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ===== قسم الرياضيين =====
+function AthletesSection() {
+  return (
+    <section id="athletes" className="relative py-24 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0d1528] via-[#070b16] to-[#0d1528]" />
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* صورة 3D رياضية */}
+        <div className="flex flex-col lg:flex-row items-center gap-12 mb-16">
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="lg:w-1/2"
+          >
+            <SectionHeader icon={Dumbbell} title="الرياضيين" subtitle="أبطال الفصل في الميادين الرياضية" align="right" />
+            <p className="text-gray-400 mt-4 leading-relaxed">
+              يضم فصلنا مجموعة من الرياضيين المتميزين الذين يمثلون الفصل في مختلف البطولات والمسابقات الرياضية على مستوى المدرسة
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="lg:w-1/2"
+          >
+            <motion.img
+              src={SPORTS_3D}
+              alt="رياضة 3D"
+              className="w-full max-w-md mx-auto drop-shadow-2xl"
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </motion.div>
+        </div>
+
+        {/* بطاقات الرياضيين */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+          {athletes.map((athlete, i) => (
+            <motion.div
+              key={athlete.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08 }}
+              className="glass-card rounded-2xl p-5 text-center group"
+            >
+              <div className="relative w-20 h-20 mx-auto mb-3">
+                <img
+                  src={athlete.image === "REPLACE_WITH_URL" ? DEFAULT_AVATAR : athlete.image}
+                  alt={athlete.name}
+                  className="w-full h-full rounded-full object-cover border-2 border-green-500/30"
+                />
+                <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-green-500 flex items-center justify-center">
+                  <Medal className="w-3.5 h-3.5 text-[#070b16]" />
+                </div>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-1">{athlete.name}</h3>
+              <p className="text-green-400 text-xs font-medium mb-2">{athlete.sport}</p>
+              <p className="text-gray-400 text-xs leading-relaxed">{athlete.description}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ===== قسم أبرز الرياضيين =====
+function FeaturedAthletesSection() {
+  return (
+    <section className="relative py-24 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0d1528] via-[#0a1222] to-[#0d1528]" />
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader icon={Trophy} title="أبرز الرياضيين" subtitle="أبطال حققوا إنجازات استثنائية" />
+
+        <div className="grid md:grid-cols-2 gap-8 mt-12">
+          {topAthletes.map((athlete, i) => (
+            <motion.div
+              key={athlete.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.15 }}
+              className="glass-card rounded-2xl p-8 flex gap-6 items-center"
+              style={{ boxShadow: "0 0 30px rgba(20,184,166,0.08)" }}
+            >
+              <div className="shrink-0">
+                <div className="relative w-28 h-28">
+                  <img
+                    src={athlete.image === "REPLACE_WITH_URL" ? DEFAULT_AVATAR : athlete.image}
+                    alt={athlete.name}
+                    className="w-full h-full rounded-2xl object-cover border-2 border-teal-500/30"
+                  />
+                  <div className="absolute -bottom-2 -right-2 w-9 h-9 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center shadow-lg">
+                    <Trophy className="w-4 h-4 text-[#070b16]" />
+                  </div>
+                </div>
+              </div>
+              <div className="text-right flex-1">
+                <h3 className="text-2xl font-bold text-white mb-1">{athlete.name}</h3>
+                <p className="text-teal-400 font-medium mb-1">{athlete.sport}</p>
+                <p className="text-yellow-400 text-sm font-medium mb-2">{athlete.achievement}</p>
+                <p className="text-gray-400 text-sm leading-relaxed">{athlete.description}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ===== قسم حولنا =====
+function AboutSection() {
+  return (
+    <section id="about" className="relative py-24 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0d1528] via-[#070b16] to-[#0d1528]" />
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader icon={BookOpen} title={aboutText.title} subtitle={aboutText.subtitle} />
+
+        <div className="grid lg:grid-cols-2 gap-12 mt-12">
+          {/* النص */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="space-y-6"
+          >
+            <h3 className="text-3xl font-bold text-white">{aboutText.subtitle}</h3>
+            {aboutText.paragraphs.map((p, i) => (
+              <p key={i} className="text-gray-400 leading-relaxed text-lg">{p}</p>
+            ))}
+          </motion.div>
+
+          {/* الإنجازات + صورة 3D */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="space-y-6"
+          >
+            <motion.img
+              src={ABOUT_3D}
+              alt="حولنا 3D"
+              className="w-64 mx-auto mb-6 drop-shadow-2xl"
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <div className="glass-card rounded-2xl p-6">
+              <h4 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                <Award className="w-5 h-5 text-yellow-400" />
                 الإنجازات
-              </h3>
+              </h4>
               <div className="space-y-3">
                 {aboutText.achievements.map((ach, i) => (
                   <motion.div
                     key={i}
-                    className="flex items-center gap-3 p-3 rounded-xl bg-amber-500/5 border border-amber-500/10"
                     initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}
+                    className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5"
                   >
-                    <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 shrink-0">
-                      <Star className="w-4 h-4" />
-                    </div>
-                    <span className="text-gray-200 text-sm font-medium">{ach}</span>
+                    <Star className="w-4 h-4 text-yellow-400 shrink-0" />
+                    <span className="text-gray-300 text-sm">{ach}</span>
                   </motion.div>
                 ))}
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
   );
 }
 
-/* ───────── الفوتر ───────── */
+// ===== الفوتر =====
 function Footer() {
   return (
     <footer className="relative py-16 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-t from-[#050510] to-[#0a0a1a]" />
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-l from-transparent via-cyan-500/30 to-transparent" />
-
-      <div className="relative z-10 container mx-auto px-4 sm:px-8 text-center">
+      <div className="absolute inset-0 bg-[#050810]" />
+      <div className="section-divider mb-12" />
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* عدد الطلاب */}
         <motion.div
-          className="mb-10"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
+          className="inline-flex items-center gap-4 px-8 py-4 rounded-2xl glass-card mb-8"
         >
-          <div className="inline-flex items-center gap-4 px-8 py-4 rounded-2xl glass-card border border-cyan-500/15">
-            <Users className="w-8 h-8 text-cyan-400" />
-            <div className="text-right">
-              <div
-                className="text-3xl sm:text-4xl font-black text-white neon-text"
-                style={{ fontFamily: "var(--font-cairo)" }}
-              >
-                26
-              </div>
-              <div className="text-sm text-gray-400">طالب في الفصل</div>
-            </div>
+          <Users className="w-8 h-8 text-teal-400" />
+          <div>
+            <span className="text-4xl font-black text-white">26</span>
+            <p className="text-gray-400 text-sm">طالب في الفصل</p>
           </div>
         </motion.div>
 
         {/* الشعار */}
-        <img src={IMAGES.logo} alt="شعار فصل 1/3" className="w-16 h-16 mx-auto mb-4 opacity-60" />
+        <div className="flex justify-center mb-6">
+          <img src={LOGO_URL} alt="شعار" className="w-16 h-16 rounded-xl object-cover opacity-60" />
+        </div>
 
-        <p className="text-gray-500 text-sm mb-2" style={{ fontFamily: "var(--font-cairo)" }}>
-          فصل 1/3 — العام الدراسي 2025 - 2026
-        </p>
-
-        <div className="h-px w-32 bg-gradient-to-l from-transparent via-cyan-500/20 to-transparent mx-auto my-6" />
-
-        <p className="text-gray-500 text-sm">
-          تم التطوير بواسطة:{" "}
-          <span className="text-cyan-400 font-medium">حسام الحكمي</span>
+        <p className="text-gray-500 text-sm mb-2">فصل 1/3 — العام الدراسي 2025 - 2026</p>
+        <div className="section-divider my-6 max-w-xs mx-auto" />
+        <p className="text-gray-600 text-sm">
+          تم التطوير بواسطة: <span className="text-teal-400 font-medium">حسام الحكمي</span>
         </p>
       </div>
     </footer>
   );
 }
 
-/* ───────── الصفحة الرئيسية ───────── */
+// ===== عنوان القسم =====
+function SectionHeader({ icon: Icon, title, subtitle, align = "center" }: {
+  icon: React.ElementType;
+  title: string;
+  subtitle: string;
+  align?: "center" | "right";
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className={align === "center" ? "text-center" : "text-right"}
+    >
+      <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-500/10 border border-teal-500/20 mb-4 ${align === "center" ? "mx-auto" : ""}`}>
+        <Icon className="w-4 h-4 text-teal-400" />
+        <span className="text-teal-400 text-sm font-medium">{subtitle}</span>
+      </div>
+      <h2 className="text-4xl md:text-5xl font-black text-white gradient-text">{title}</h2>
+      <div className={`w-20 h-1 bg-gradient-to-l from-teal-400 to-blue-500 rounded-full mt-4 ${align === "center" ? "mx-auto" : "mr-0"}`} />
+    </motion.div>
+  );
+}
+
+// ===== الصفحة الرئيسية =====
 export default function Home() {
   const [showWelcome, setShowWelcome] = useState(true);
+  const [activeSection, setActiveSection] = useState("home");
+
+  useEffect(() => {
+    if (showWelcome) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    NAV_ITEMS.forEach((item) => {
+      const el = document.getElementById(item.id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [showWelcome]);
 
   return (
-    <div className="min-h-screen bg-[#0a0a1a] text-white overflow-x-hidden">
+    <div className="min-h-screen" style={{ background: "#070b16" }}>
       <AnimatePresence>
-        {showWelcome && <WelcomeScreen onDismiss={() => setShowWelcome(false)} />}
+        {showWelcome && <WelcomeScreen onEnter={() => setShowWelcome(false)} />}
       </AnimatePresence>
 
       {!showWelcome && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Navbar />
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.3 }}>
+          <Navbar activeSection={activeSection} />
           <HeroSection />
+          <div className="section-divider" />
           <TeachersSection />
+          <div className="section-divider" />
           <StudentsListSection />
-          <TopStudentsSection />
+          <div className="section-divider" />
+          <FeaturedStudentsSection />
+          <div className="section-divider" />
           <AthletesSection />
+          <div className="section-divider" />
+          <FeaturedAthletesSection />
+          <div className="section-divider" />
           <AboutSection />
           <Footer />
         </motion.div>
