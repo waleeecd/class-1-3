@@ -307,7 +307,7 @@ function StudentsListSection() {
                 <Users className="w-5 h-5 text-teal-400" />
                 <h3 className="text-lg font-bold text-white">طلاب الفصل ({students.length} طالب)</h3>
               </div>
-              <div className="grid grid-cols-2 gap-2 max-h-[500px] overflow-y-auto pr-2" style={{ scrollbarWidth: "thin" }}>
+              <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto pr-2" style={{ scrollbarWidth: "thin" }}>
                 {filteredStudents.map((student, i) => (
                   <motion.button
                     key={student.id}
@@ -325,7 +325,12 @@ function StudentsListSection() {
                     <span className="w-8 h-8 rounded-full bg-teal-500/10 flex items-center justify-center text-teal-400 text-sm font-bold shrink-0">
                       {student.id}
                     </span>
-                    <span className="text-gray-300 text-sm font-medium">{student.name}</span>
+                    <div className="flex flex-col text-right">
+                      <span className="text-gray-300 text-sm font-medium">{student.name}</span>
+                      {student.description && (
+                        <span className="text-gray-500 text-xs mt-0.5 line-clamp-1">{student.description}</span>
+                      )}
+                    </div>
                   </motion.button>
                 ))}
               </div>
@@ -372,6 +377,9 @@ function StudentsListSection() {
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-1">{selectedStudent.name}</h3>
                   <p className="text-teal-400 text-sm">طالب في فصل 1/3</p>
+                  {selectedStudent.description && (
+                    <p className="text-gray-400 text-sm mt-3 leading-relaxed px-2">{selectedStudent.description}</p>
+                  )}
                   <div className="mt-4 px-4 py-2 rounded-full bg-teal-500/10 inline-block">
                     <span className="text-teal-400 text-sm font-medium">#{selectedStudent.id}</span>
                   </div>

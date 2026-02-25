@@ -39,11 +39,35 @@ export const teachers = [
 ];
 
 // ===== الطلاب (26) =====
-export const students = Array.from({ length: 26 }, (_, i) => ({
-  id: i + 1,
-  name: `الطالب ${i + 1}`,
-  image: "REPLACE_WITH_URL",
-}));
+// لتعديل طالب: غيّر الاسم والوصف ورابط الصورة
+export const students = [
+  { id: 1,  name: "الطالب 1",  description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 2,  name: "الطالب 2",  description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 3,  name: "الطالب 3",  description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 4,  name: "الطالب 4",  description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 5,  name: "الطالب 5",  description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 6,  name: "الطالب 6",  description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 7,  name: "الطالب 7",  description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 8,  name: "الطالب 8",  description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 9,  name: "الطالب 9",  description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 10, name: "الطالب 10", description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 11, name: "الطالب 11", description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 12, name: "الطالب 12", description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 13, name: "الطالب 13", description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 14, name: "الطالب 14", description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 15, name: "الطالب 15", description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 16, name: "الطالب 16", description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 17, name: "الطالب 17", description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 18, name: "الطالب 18", description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 19, name: "الطالب 19", description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 20, name: "الطالب 20", description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 21, name: "الطالب 21", description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 22, name: "الطالب 22", description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 23, name: "الطالب 23", description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 24, name: "الطالب 24", description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 25, name: "الطالب 25", description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+  { id: 26, name: "الطالب 26", description: "ضع وصف الطالب هنا", image: "REPLACE_WITH_URL" },
+];
 
 // ===== أبرز الطلاب (7) =====
 export const topStudents = [
